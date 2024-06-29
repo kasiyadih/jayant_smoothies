@@ -20,15 +20,16 @@ st.write(
 cnx = st.connection("snowflake")
 session = cnx.session()
 
-fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
-st.text(fruityvice_response)
-fv_df = st.dataframe(data = fruityvice_response.json(),use_container_width=True)
 name_on_order = st.text_input('Name on smootie')
 st.write('Your name in smoothie :',name_on_order)
 my_dataframe = session.table('SMOOTHIES.PUBLIC.FRUIT_OPTIONS').select(col('FRUIT_NAME'))
 #st.dataframe(data = my_dataframe, use_container_width=True)
 
 ingrefients_list = st.multiselect('Choose up to five ingredients',my_dataframe,max_selections =5)
+fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+st.text(fruityvice_response)
+fv_df = st.dataframe(data = fruityvice_response.json(),use_container_width=True)
+
 if ingrefients_list:    
     #st.write(ingrefients_list)
     #st.text(ingrefients_list)
