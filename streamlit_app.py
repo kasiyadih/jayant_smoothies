@@ -2,6 +2,8 @@
 import streamlit as st
 #from snowflake.snowpark.context import get_active_session
 from snowflake.snowpark.functions import col
+import requests
+
 # Write directly to the app
 st.title("Customize your smoothie")
 st.write(
@@ -18,7 +20,8 @@ st.write(
 cnx = st.connection("snowflake")
 session = cnx.session()
 
-
+fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+st.text(fruityvice_response)
 name_on_order = st.text_input('Name on smootie')
 st.write('Your name in smoothie :',name_on_order)
 my_dataframe = session.table('SMOOTHIES.PUBLIC.FRUIT_OPTIONS').select(col('FRUIT_NAME'))
