@@ -15,7 +15,7 @@ st.write(
 
 #option =  st.selectbox('What is your favourite food',('Banana','Strawberries','Peaches'))
 #st.write('your Favourite food is',option)
-cnx = st.connection('snowflake')
+cnx = st.connection("snowflake")
 session = cnx.session()
 
 
