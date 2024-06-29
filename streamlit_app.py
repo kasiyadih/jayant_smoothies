@@ -22,8 +22,10 @@ session = cnx.session()
 
 name_on_order = st.text_input('Name on smootie')
 st.write('Your name in smoothie :',name_on_order)
-my_dataframe = session.table('SMOOTHIES.PUBLIC.FRUIT_OPTIONS').select(col('FRUIT_NAME'))
+my_dataframe = session.table('SMOOTHIES.PUBLIC.FRUIT_OPTIONS').select(col('FRUIT_NAME'),col('SEARCH_ON')
 #st.dataframe(data = my_dataframe, use_container_width=True)
+pd_df = my_dataframe.to_pandas()
+
 
 ingrefients_list = st.multiselect('Choose up to five ingredients',my_dataframe,max_selections =5)
 
@@ -35,6 +37,10 @@ if ingrefients_list:
     ingredients_string  = ''
     for fruits_choosen in ingrefients_list:
         ingredients_string += fruits_choosen+' '
+
+        search_on=pd_df.loc[pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON'].iloc[0]
+        st.write('The search value for ', fruit_chosen,' is ', search_on, '.')
+        
         fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+fruits_choosen)
         fv_df = st.dataframe(data = fruityvice_response.json(),use_container_width=True)
 
